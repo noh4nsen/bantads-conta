@@ -1,4 +1,4 @@
-package com.bantads.conta.bantadsconta.services;
+package com.bantads.conta.bantadsconta.services.Consumer;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import com.bantads.conta.bantadsconta.DTOs.GerenteContaDTO;
 import com.bantads.conta.bantadsconta.data.R.GerenteContaRepository;
 import com.bantads.conta.bantadsconta.model.R.GerenteConta;
+import com.bantads.conta.bantadsconta.services.Producer.Rollback.Autenticacao.SenderAutenticacao;
+import com.bantads.conta.bantadsconta.services.Producer.Rollback.Gerente.SenderGerente;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -21,8 +25,14 @@ public class ConsumerCadastro {
     @Autowired
     private GerenteContaRepository gerenteContaRepository;
 
+    @Autowired
+    private SenderGerente senderGerente;
+
+    @Autowired
+    private SenderAutenticacao senderAutenticacao;
+
     @RabbitListener(queues = "autocadastro-gerente-conta")
-    public void receive(@Payload String json) {
+    public void receive(@Payload String json) throws JsonMappingException, JsonProcessingException {
         try {
             GerenteContaDTO gerenteContaDTO = objectMapper.readValue(json, GerenteContaDTO.class);
             GerenteConta gerenteConta = new GerenteConta(
@@ -35,6 +45,9 @@ public class ConsumerCadastro {
             gerenteContaRepository.save(gerenteConta);
         } catch (Exception e) {
             System.out.println(e);
+            GerenteContaDTO gerenteContaDTO = objectMapper.readValue(json, GerenteContaDTO.class);
+            senderGerente.send(gerenteContaDTO.getSaga());
+            senderAutenticacao.send(gerenteContaDTO.getSaga());
         }
     }
 }
