@@ -1,5 +1,4 @@
-package com.bantads.conta.bantadsconta.model.CUD;
-
+package com.bantads.conta.bantadsconta.model.R;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -12,18 +11,18 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "movimentacao")
-public class MovimentacaoC implements Serializable {
+public class MovimentacaoR implements Serializable {
     private UUID id;
     private UUID origem;
     private UUID destino;
     private BigDecimal valor;
     private int tipoMovimentacao;
 
-    public MovimentacaoC() {
+    public MovimentacaoR() {
         super();
     }
 
-    public MovimentacaoC(UUID id, UUID contaOrigem, UUID contaDestino, BigDecimal valorMovimentacao, BigDecimal saldo,
+    public MovimentacaoR(UUID id, UUID contaOrigem, UUID contaDestino, BigDecimal valorMovimentacao, BigDecimal saldo,
     		int tipoMovimentacao) {
         super();
         this.id = id;

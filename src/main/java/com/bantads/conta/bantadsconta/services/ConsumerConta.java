@@ -18,7 +18,7 @@ import com.bantads.conta.bantadsconta.model.R.ContaR;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class ConsumerCadastro {
+public class ConsumerConta {
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -57,22 +57,4 @@ public class ConsumerCadastro {
             e.printStackTrace();
         }
     }
-	
-
-    /*@RabbitListener(queues = "autocadastro-gerente-conta")
-    public void receive(@Payload String json) {
-        try {
-            GerenteContaDTO gerenteContaDTO = objectMapper.readValue(json, GerenteContaDTO.class);
-            GerenteConta gerenteConta = new GerenteConta(
-                    UUID.randomUUID(),
-                    gerenteContaDTO.getId(),
-                    0,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    gerenteContaDTO.getSaga());
-            gerenteContaRepository.save(gerenteConta);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }*/
 }
