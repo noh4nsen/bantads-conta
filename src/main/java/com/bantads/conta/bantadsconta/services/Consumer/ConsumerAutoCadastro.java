@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class ConsumerCadastro {
+public class ConsumerAutoCadastro {
     @Autowired
     private ObjectMapper objectMapper;
 
