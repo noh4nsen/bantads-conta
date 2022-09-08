@@ -1,23 +1,32 @@
-package com.bantads.conta.bantadsconta.model;
+package com.bantads.conta.bantadsconta.model.R;
+
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
-public class Conta implements Serializable {
-    private int id;
-    private int idExternoCliente;
-    private int idExternoGerente;
+@Entity
+@Table(name = "conta")
+public class ContaR implements Serializable {
+    private UUID id;
+    private UUID idExternoCliente;
+    private UUID idExternoGerente;
     private long numeroConta;
     private BigDecimal saldo;
     private Timestamp dataCriacao;
     private BigDecimal limite;
 
-    public Conta() {
+    public ContaR() {
         super();
     }
 
-    public Conta(int id, int idExternoCliente, int idExternoGerente, long numeroConta, BigDecimal saldo,
+    public ContaR(UUID id, UUID idExternoCliente, UUID idExternoGerente, long numeroConta, BigDecimal saldo,
             Timestamp dataCriacao, BigDecimal limite) {
         super();
         this.id = id;
@@ -29,22 +38,35 @@ public class Conta implements Serializable {
         this.limite = limite;
     }
 
-    public int getId() {
+    @Id
+    @Column(name = "id")
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public int getIdExternoCliente() {
+    @Column(name = "idexternocliente")
+    public UUID getIdExternoCliente() {
         return idExternoCliente;
     }
 
-    public void setIdExternoCliente(int idExternoCliente) {
+    public void setIdExternoCliente(UUID idExternoCliente) {
         this.idExternoCliente = idExternoCliente;
     }
 
+    @Column(name = "idexternogerente")
+    public UUID getIdExternoGerente() {
+        return idExternoGerente;
+    }
+
+    public void setIdExternoGerente(UUID idExternoGerente) {
+        this.idExternoGerente = idExternoGerente;
+    }
+
+    @Column(name = "numeroconta")
     public long getNumeroConta() {
         return numeroConta;
     }
@@ -53,6 +75,7 @@ public class Conta implements Serializable {
         this.numeroConta = numeroConta;
     }
 
+    @Column(name = "saldo")
     public BigDecimal getSaldo() {
         return saldo;
     }
@@ -61,6 +84,7 @@ public class Conta implements Serializable {
         this.saldo = saldo;
     }
 
+    @Column(name = "datacriacao")
     public Timestamp getDataCriacao() {
         return dataCriacao;
     }
@@ -69,20 +93,13 @@ public class Conta implements Serializable {
         this.dataCriacao = dataCriacao;
     }
 
+    @Column(name = "limite")
     public BigDecimal getLimite() {
         return limite;
     }
 
     public void setLimite(BigDecimal limite) {
         this.limite = limite;
-    }
-
-    public int getIdExternoGerente() {
-        return idExternoGerente;
-    }
-
-    public void setIdExternoGerente(int idExternoGerente) {
-        this.idExternoGerente = idExternoGerente;
     }
 
 }
