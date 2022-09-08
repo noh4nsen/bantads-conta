@@ -1,6 +1,7 @@
 package com.bantads.conta.bantadsconta.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bantads.conta.bantadsconta.DTOs.MovimentacaoDTO;
 import com.bantads.conta.bantadsconta.DTOs.MovimentacaoResponseDTO;
+import com.bantads.conta.bantadsconta.DTOs.Top5GerenteResponseDTO;
 import com.bantads.conta.bantadsconta.data.CUD.MovimentacaoCRepository;
+import com.bantads.conta.bantadsconta.data.R.GerenteContaRepository;
 import com.bantads.conta.bantadsconta.data.R.MovimentacaoRRepository;
 import com.bantads.conta.bantadsconta.model.CUD.MovimentacaoC;
+import com.bantads.conta.bantadsconta.model.R.GerenteConta;
 
 @CrossOrigin
 @RestController
@@ -31,6 +35,9 @@ public class MovimentacaoController {
 
 	@Autowired
     private MovimentacaoCRepository movimentacaoCRepository;
+	
+	@Autowired
+    private GerenteContaRepository gerenteContaRepository;
 	
 	@PostMapping("/insere")
 	public ResponseEntity<MovimentacaoResponseDTO> insere(@RequestBody MovimentacaoDTO movimentacao) {
@@ -51,9 +58,17 @@ public class MovimentacaoController {
 		return ResponseEntity.ok().body(null);
 	}
 	
-	/*@GetMapping("/gerente-conta/")
+	@GetMapping("/gerente-conta")
 	public ResponseEntity<Top5GerenteResponseDTO> obtemTop5Gerentes(){
+		try {
+			List<GerenteConta> resultado = gerenteContaRepository.obtemTopCinco();
+			Top5GerenteResponseDTO response = new Top5GerenteResponseDTO(resultado);
+        	return ResponseEntity.ok().body(response);
+    	} catch(Exception ex) {
+    		ex.printStackTrace();
+    		return ResponseEntity.status(500).build();
+    	}
 		
-		return ResponseEntity.ok().body(null);
-	}*/
+		
+	}
 }
