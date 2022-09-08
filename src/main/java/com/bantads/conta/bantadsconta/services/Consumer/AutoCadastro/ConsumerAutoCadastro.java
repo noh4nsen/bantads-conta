@@ -1,4 +1,4 @@
-package com.bantads.conta.bantadsconta.services.Consumer;
+package com.bantads.conta.bantadsconta.services.Consumer.AutoCadastro;
 
 import java.math.BigDecimal;
 import java.util.UUID;
