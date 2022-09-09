@@ -1,12 +1,16 @@
-package com.bantads.conta.bantadsconta.model;
+package com.bantads.conta.bantadsconta.model.CUD;
+
+import java.util.UUID;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.bantads.conta.bantadsconta.model.TipoMovimentacao;
+
 public class Movimentacao implements Serializable {
-    private int id;
-    private Conta contaOrigem;
-    private Conta contaDestino;
+    private UUID id;
+    private ContaC contaOrigem;
+    private ContaC contaDestino;
     private BigDecimal valorMovimentacao;
     private BigDecimal saldo;
     private TipoMovimentacao tipoMovimentacao;
@@ -15,7 +19,7 @@ public class Movimentacao implements Serializable {
         super();
     }
 
-    public Movimentacao(int id, Conta contaOrigem, Conta contaDestino, BigDecimal valorMovimentacao, BigDecimal saldo,
+    public Movimentacao(UUID id, ContaC contaOrigem, ContaC contaDestino, BigDecimal valorMovimentacao, BigDecimal saldo,
             TipoMovimentacao tipoMovimentacao) {
         super();
         this.id = id;
@@ -26,27 +30,27 @@ public class Movimentacao implements Serializable {
         this.tipoMovimentacao = tipoMovimentacao;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Conta getContaOrigem() {
+    public ContaC getContaOrigem() {
         return contaOrigem;
     }
 
-    public void setContaOrigem(Conta contaOrigem) {
+    public void setContaOrigem(ContaC contaOrigem) {
         this.contaOrigem = contaOrigem;
     }
 
-    public Conta getContaDestino() {
+    public ContaC getContaDestino() {
         return contaDestino;
     }
 
-    public void setContaDestino(Conta contaDestino) {
+    public void setContaDestino(ContaC contaDestino) {
         this.contaDestino = contaDestino;
     }
 
