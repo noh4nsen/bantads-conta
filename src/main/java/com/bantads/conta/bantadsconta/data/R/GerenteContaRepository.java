@@ -9,4 +9,6 @@ import com.bantads.conta.bantadsconta.model.R.GerenteConta;
 public interface GerenteContaRepository extends JpaRepository<GerenteConta, UUID> {
     @Transactional
     public Long deleteBySaga(UUID saga);
+
+    public GerenteConta findFirstByOrderByQuantidadeContasAsc();
 }

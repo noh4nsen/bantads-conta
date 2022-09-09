@@ -6,7 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.bantads.conta.bantadsconta.services.Producer.Cliente.SenderAnaliseVinculo;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Autenticacao.SenderAutenticacao;
+import com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente.SenderAnalise;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Gerente.SenderGerente;
 
 @EnableRabbit
@@ -30,5 +32,15 @@ public class BantadsContaApplication {
 	@Bean
 	public SenderAutenticacao senderA() {
 		return new SenderAutenticacao();
+	}
+
+	@Bean
+	public SenderAnalise senderAn() {
+		return new SenderAnalise();
+	}
+
+	@Bean
+	public SenderAnaliseVinculo senderAv(){
+		return new SenderAnaliseVinculo();
 	}
 }
