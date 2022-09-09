@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import com.bantads.conta.bantadsconta.DTOs.ContaDTO;
 import com.bantads.conta.bantadsconta.DTOs.ContaResponseDTO;
 import com.bantads.conta.bantadsconta.data.R.ContaRRepository;
-import com.bantads.conta.bantadsconta.data.R.GerenteContaRepository;
 import com.bantads.conta.bantadsconta.model.R.ContaR;
 import com.bantads.conta.bantadsconta.services.SenderTeste;
 
