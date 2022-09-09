@@ -2,7 +2,6 @@ package com.bantads.conta.bantadsconta.data.R;
 
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bantads.conta.bantadsconta.model.R.GerenteConta;
@@ -11,6 +10,5 @@ public interface GerenteContaRepository extends JpaRepository<GerenteConta, UUID
     @Transactional
     public Long deleteBySaga(UUID saga);
 
-    @Query("from GerenteConta order by quantidadeContas asc")
-    public GerenteConta getGerenteContaFewerAccounts();
+    public GerenteConta findFirstByOrderByQuantidadeContasAsc();
 }
