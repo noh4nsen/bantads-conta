@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import com.bantads.conta.bantadsconta.DTOs.AnaliseVinculoDTO;
 import com.bantads.conta.bantadsconta.data.R.GerenteContaRepository;
 import com.bantads.conta.bantadsconta.model.R.GerenteConta;
+import com.bantads.conta.bantadsconta.services.Producer.Cliente.SenderAnaliseVinculo;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente.SenderAnalise;
-import com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente.SenderAnaliseVinculo;
 
 @Component
 public class ConsumerAnalise {

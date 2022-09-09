@@ -1,4 +1,4 @@
-package com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente;
+package com.bantads.conta.bantadsconta.services.Producer.Cliente;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
