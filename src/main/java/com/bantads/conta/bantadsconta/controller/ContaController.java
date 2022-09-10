@@ -55,7 +55,7 @@ public class ContaController {
 	@GetMapping("/obter-idcliente/{idCliente}")
 	public ResponseEntity<ContaResponseDTO> obterPorIdCliente(@PathVariable UUID idCliente) {
 		try {
-			ContaR conta = contaRRepository.findByIdCliente(idCliente);
+			ContaR conta = contaRRepository.findByIdExternoCliente(idCliente);
 
 			if (conta != null) {
 				ContaResponseDTO response = mapper.map(conta, ContaResponseDTO.class);
@@ -74,17 +74,20 @@ public class ContaController {
 		try {
 			Optional<ContaR> contaOpt = contaRRepository.findById(id);
 
-			ContaR conta = contaOpt.get();
-
-			if (conta != null) {
-				ContaResponseDTO response = mapper.map(conta, ContaResponseDTO.class);
-				return ResponseEntity.ok().body(response);
-			} else {
-				return ResponseEntity.ok().body(null);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return ResponseEntity.status(500).build();
-		}
-	}
+    		if(!contaOpt.isPresent())
+    			return ResponseEntity.notFound().build();
+    		
+    		ContaR conta = contaOpt.get();
+    		
+        	if(conta != null) {
+        		ContaResponseDTO response = mapper.map(conta, ContaResponseDTO.class);
+            	return ResponseEntity.ok().body(response);
+        	} else {
+        		return ResponseEntity.ok().body(null);
+        	}
+    	} catch(Exception ex) {
+    		ex.printStackTrace();
+    		return ResponseEntity.status(500).build();
+    	}
+    }
 }
