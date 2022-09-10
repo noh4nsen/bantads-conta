@@ -26,53 +26,53 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @RequestMapping("contas")
 public class ContaController {
-	
+
 	@Autowired
-    private ModelMapper mapper;
-	
+	private ModelMapper mapper;
+
 	@Autowired
-    private SenderTeste senderTeste;
-	
+	private SenderTeste senderTeste;
+
 	@Autowired
 	private ContaRRepository contaRRepository;
-	
-    @GetMapping("/health")
-    public String health() {
-        return "ʕ·͡ᴥ·ʔ";
-    }
-    
-    @PostMapping("/teste-inserir")
-    public ResponseEntity<ContaResponseDTO> testaFilaInserir(@RequestBody ContaDTO conta){
-    	try {
-    		senderTeste.sendInserir(conta);
-        	return ResponseEntity.ok().body(null);
-    	} catch(Exception ex) {
-    		ex.printStackTrace();
-    		return ResponseEntity.status(500).build();
-    	}
-    }
-    
-    @GetMapping("/obter-idcliente/{idCliente}")
-    public ResponseEntity<ContaResponseDTO> obterPorIdCliente(@PathVariable UUID idCliente){
-    	try {
-    		ContaR conta = contaRRepository.findByIdExternoCliente(idCliente);
-        	
-        	if(conta != null) {
-        		ContaResponseDTO response = mapper.map(conta, ContaResponseDTO.class);
-            	return ResponseEntity.ok().body(response);
-        	} else {
-        		return ResponseEntity.ok().body(null);
-        	}
-    	} catch(Exception ex) {
-    		ex.printStackTrace();
-    		return ResponseEntity.status(500).build();
-    	}
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<ContaResponseDTO> obterPorId(@PathVariable UUID id){
-    	try {
-    		Optional<ContaR> contaOpt = contaRRepository.findById(id);
+
+	@GetMapping("/health")
+	public String health() {
+		return "ʕ·͡ᴥ·ʔ";
+	}
+
+	@PostMapping("/teste-inserir")
+	public ResponseEntity<ContaResponseDTO> testaFilaInserir(@RequestBody ContaDTO conta) {
+		try {
+			senderTeste.sendInserir(conta);
+			return ResponseEntity.ok().body(null);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.status(500).build();
+		}
+	}
+
+	@GetMapping("/obter-idcliente/{idCliente}")
+	public ResponseEntity<ContaResponseDTO> obterPorIdCliente(@PathVariable UUID idCliente) {
+		try {
+			ContaR conta = contaRRepository.findByIdExternoCliente(idCliente);
+
+			if (conta != null) {
+				ContaResponseDTO response = mapper.map(conta, ContaResponseDTO.class);
+				return ResponseEntity.ok().body(response);
+			} else {
+				return ResponseEntity.ok().body(null);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.status(500).build();
+		}
+	}
+
+	@GetMapping("/obter/{id}")
+	public ResponseEntity<ContaResponseDTO> obterPorId(@PathVariable UUID id) {
+		try {
+			Optional<ContaR> contaOpt = contaRRepository.findById(id);
 
     		if(!contaOpt.isPresent())
     			return ResponseEntity.notFound().build();
