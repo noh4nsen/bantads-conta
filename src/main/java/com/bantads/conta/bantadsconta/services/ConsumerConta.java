@@ -1,4 +1,4 @@
-package com.bantads.conta.bantadsconta.services.Consumer;
+package com.bantads.conta.bantadsconta.services;
 
 import java.math.BigDecimal;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -55,6 +55,6 @@ public class ConsumerConta {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
+

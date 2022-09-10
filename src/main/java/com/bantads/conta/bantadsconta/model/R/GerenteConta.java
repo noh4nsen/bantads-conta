@@ -69,6 +69,10 @@ public class GerenteConta {
     public void setSaldoPositivo(BigDecimal saldoPositivo) {
         this.saldoPositivo = saldoPositivo;
     }
+    
+    public void setSaldoPositivo(double saldoPositivo) {
+        this.saldoPositivo = new BigDecimal(saldoPositivo);
+    }
 
     @Column(name = "saldonegativo")
     public BigDecimal getSaldoNegativo() {
@@ -77,6 +81,10 @@ public class GerenteConta {
 
     public void setSaldoNegativo(BigDecimal saldoNegativo) {
         this.saldoNegativo = saldoNegativo;
+    }
+    
+    public void setSaldoNegativo(double saldoNegativo) {
+        this.saldoNegativo = new BigDecimal(saldoNegativo);
     }
 
     @Column(name = "saga")
