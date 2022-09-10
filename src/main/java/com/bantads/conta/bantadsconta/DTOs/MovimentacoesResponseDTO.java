@@ -12,5 +12,12 @@ public class MovimentacoesResponseDTO {
 		this.movimentacoes = movs;
 	}
 	
+	public List<MovimentacaoR> getMovimentacoes() {
+		return this.movimentacoes;
+	}
+	
+	public void setMovimentacoes(List<MovimentacaoR> movs) {
+		this.movimentacoes = movs;
+	}
 	
 }

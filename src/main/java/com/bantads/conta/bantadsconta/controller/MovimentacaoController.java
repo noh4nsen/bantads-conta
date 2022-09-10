@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,10 +124,10 @@ public class MovimentacaoController {
 		}
 	}
 	
-	@GetMapping("/obter-data/{data}")
-	public ResponseEntity<MovimentacoesResponseDTO> obtemPorData(Date data){
+	@GetMapping("/obter-data/{cliente}/{dataInicio}/{dataFim}")
+	public ResponseEntity<MovimentacoesResponseDTO> obtemPorData(@PathVariable UUID cliente, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataInicio, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataFim){
 		try {
-			List<MovimentacaoR> movimentacoes = movimentacaoRRepository.findByDataHoraBetween(data, data);
+			List<MovimentacaoR> movimentacoes = movimentacaoRRepository.obtemMovimentacoesCliente(cliente, dataInicio, dataFim);
 			MovimentacoesResponseDTO response = new MovimentacoesResponseDTO(movimentacoes);
 			return ResponseEntity.ok().body(response);
 		} catch(Exception ex) {
