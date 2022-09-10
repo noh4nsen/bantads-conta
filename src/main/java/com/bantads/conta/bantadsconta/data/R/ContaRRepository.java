@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ContaRRepository extends JpaRepository<ContaR, UUID> {
-	ContaR findByIdCliente(UUID idCliente);
+	ContaR findByIdExternoCliente(UUID idCliente);
 	Optional<ContaR> findById(UUID id);
 }
