@@ -1,6 +1,7 @@
 package com.bantads.conta.bantadsconta.DTOs;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
 public class MovimentacaoDTO {
@@ -9,7 +10,9 @@ public class MovimentacaoDTO {
 	private BigDecimal valor;
 	private int tipoMovimentacao;
 	private UUID origem;
-	private UUID destino;
+	private int destino;
+	private UUID saga;
+	private Date datahora;
 	
 	public MovimentacaoDTO() {
 		
@@ -47,11 +50,27 @@ public class MovimentacaoDTO {
 		this.origem = origem;
 	}
 	
-	public UUID getDestino() {
+	public int getDestino() {
 		return this.destino;
 	}
 	
-	public void setDestino(UUID destino) {
+	public void setDestino(int destino) {
 		this.destino = destino;
+	}
+	
+	public UUID getSaga() {
+		return this.saga;
+	}
+	
+	public void setSaga(UUID saga) {
+		this.saga = saga;
+	}
+	
+	public Date getDataHora() {
+		return this.datahora;
+	}
+	
+	public void setDataHora(Date dataHora) {
+		this.datahora = dataHora;
 	}
 }

@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.bantads.conta.bantadsconta.model.R.GerenteConta;
 
-public class Top5GerenteResponseDTO {
+public class GerentesContasResposeDTO {
 
 	private List<GerenteConta> gerentesContas;
 	
-	public Top5GerenteResponseDTO(List<GerenteConta> lista) {
+	public GerentesContasResposeDTO(List<GerenteConta> lista) {
 		this.gerentesContas = lista;
 	}
 	

@@ -10,4 +10,6 @@ public interface ContaCRepository extends JpaRepository<ContaC, UUID> {
 	
 	@Query(value = "SELECT COALESCE(Max(c.numero), 0) FROM ContaC c")
 	int maxNumero();
+	
+	ContaC findByNumero(int numero);
 }

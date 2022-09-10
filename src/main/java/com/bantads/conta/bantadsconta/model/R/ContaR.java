@@ -19,34 +19,37 @@ import java.sql.Timestamp;
 @Table(name = "conta")
 public class ContaR implements Serializable {
     private UUID id;
-    private UUID idCliente;
-    private UUID idGerente;
-    private int numeroConta;
+    private UUID idExternoCliente;
+    private UUID idExternoGerente;
+    private int numero;
     private BigDecimal saldo;
     private Date dataCriacao;
     private BigDecimal limite;
+    private UUID saga;
 
     public ContaR() {
         super();
     }
 
     public ContaR(UUID id, UUID idExternoCliente, UUID idExternoGerente, int numeroConta, BigDecimal saldo,
-            Timestamp dataCriacao, BigDecimal limite) {
+            Timestamp dataCriacao, BigDecimal limite, UUID saga) {
         super();
         this.id = id;
-        this.idCliente = idExternoCliente;
-        this.idGerente = idExternoGerente;
-        this.numeroConta = numeroConta;
+        this.idExternoCliente = idExternoCliente;
+        this.idExternoGerente = idExternoGerente;
+        this.numero = numeroConta;
         this.saldo = saldo;
         this.dataCriacao = dataCriacao;
         this.limite = limite;
+        this.saga = saga;
     }
     
     public ContaR(ContaDTO conta) {
         super();
         this.id = UUID.randomUUID();
-        this.idGerente = conta.getIdGerente();
-        this.idCliente = conta.getIdCliente();
+        this.idExternoGerente = conta.getIdGerente();
+        this.idExternoCliente = conta.getIdCliente();
+        this.saga = conta.getSaga();
         this.dataCriacao =  (Date) Calendar.getInstance().getTime();
         this.saldo = new BigDecimal("0");
         
@@ -65,31 +68,31 @@ public class ContaR implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "idcliente")
-    public UUID getIdCliente() {
-        return idCliente;
+    @Column(name = "idexternocliente")
+    public UUID getIdExternoCliente() {
+        return idExternoCliente;
     }
 
-    public void setIdCliente(UUID idExternoCliente) {
-        this.idCliente = idExternoCliente;
+    public void setIdExternoCliente(UUID idExternoCliente) {
+        this.idExternoCliente = idExternoCliente;
     }
 
-    @Column(name = "idgerente")
-    public UUID getIdGerente() {
-        return idGerente;
+    @Column(name = "idexternogerente")
+    public UUID getIdExternoGerente() {
+        return idExternoGerente;
     }
 
-    public void setIdGerente(UUID idExternoGerente) {
-        this.idGerente = idExternoGerente;
+    public void setIdExternoGerente(UUID idExternoGerente) {
+        this.idExternoGerente = idExternoGerente;
     }
 
     @Column(name = "numero")
     public int getNumero() {
-        return numeroConta;
+        return numero;
     }
 
-    public void setNumero(int numeroConta) {
-        this.numeroConta = numeroConta;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     @Column(name = "saldo")
@@ -118,5 +121,13 @@ public class ContaR implements Serializable {
     public void setLimite(BigDecimal limite) {
         this.limite = limite;
     }
-
+    
+    @Column(name="saga")
+    public UUID getSaga() {
+    	return saga;
+    }
+    
+    public void setSaga(UUID saga) {
+    	this.saga = saga;
+    }
 }

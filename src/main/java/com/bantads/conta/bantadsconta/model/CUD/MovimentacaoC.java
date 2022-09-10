@@ -1,11 +1,15 @@
 package com.bantads.conta.bantadsconta.model.CUD;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.bantads.conta.bantadsconta.DTOs.MovimentacaoDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,24 +18,35 @@ import java.math.BigDecimal;
 @Table(name = "movimentacao")
 public class MovimentacaoC implements Serializable {
     private UUID id;
+    private BigDecimal valor;
     private UUID origem;
     private UUID destino;
-    private BigDecimal valor;
     private int tipoMovimentacao;
+    private UUID saga;
+    private Date dataHora;
 
     public MovimentacaoC() {
         super();
     }
 
     public MovimentacaoC(UUID id, UUID contaOrigem, UUID contaDestino, BigDecimal valorMovimentacao, BigDecimal saldo,
-    		int tipoMovimentacao) {
+    		int tipoMovimentacao, UUID saga) {
         super();
         this.id = id;
         this.origem = contaOrigem;
         this.destino = contaDestino;
         this.valor = valorMovimentacao;
-   
+        this.saga = saga;
         this.tipoMovimentacao = tipoMovimentacao;
+    }
+    
+    public MovimentacaoC(MovimentacaoDTO mov) {
+    	this.id = UUID.randomUUID();
+    	this.dataHora = (Date) Calendar.getInstance().getTime();
+    	this.origem = mov.getOrigem();
+    	this.tipoMovimentacao = mov.getTipoMovimentacao();
+    	this.valor = mov.getValor();
+    	this.saga = UUID.randomUUID();
     }
 
     @Id
@@ -78,5 +93,23 @@ public class MovimentacaoC implements Serializable {
 
     public void setTipoMovimentacao(int tipoMovimentacao) {
         this.tipoMovimentacao = tipoMovimentacao;
+    }
+    
+    @Column(name="saga")
+    public UUID getSaga() {
+    	return this.saga;
+    }
+    
+    public void setSaga(UUID saga) {
+    	this.saga = saga;
+    }
+    
+    @Column(name="datahora")
+    public Date getDataHora() {
+    	return this.dataHora;
+    }
+    
+    public void setDataHora(Date dataHora) {
+    	this.dataHora = dataHora;
     }
 }

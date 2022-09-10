@@ -1,14 +1,18 @@
 package com.bantads.conta.bantadsconta.data.R;
 
-import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bantads.conta.bantadsconta.model.R.GerenteConta;
 
 public interface GerenteContaRepository extends JpaRepository<GerenteConta, UUID> {
-
-	@Query(value="select * from gerenteconta gc order by gc.quantidadecontas desc limit 5", nativeQuery=true)
-	List<GerenteConta> obtemTopCinco();
+	GerenteConta findByIdExternoGerente(UUID idExternoGerente);
+	
+	@Query(value = "select coalesce(sum(saldo), 0) from Conta where saldo > 0 and idexternogerente = :idExternoGerente", nativeQuery = true)
+	double calculaSaldoPositivo(@Param("idExternoGerente") UUID idExternoGerente);	
+	
+	@Query(value = "select coalesce(sum(saldo), 0) from Conta where saldo < 0 and idexternogerente = :idExternoGerente", nativeQuery = true)
+	double calculaSaldoNegativo(@Param("idExternoGerente") UUID idExternoGerente);	
 }

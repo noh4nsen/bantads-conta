@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.bantads.conta.bantadsconta.DTOs.ContaDTO;
+import com.rabbitmq.client.AMQP.Basic.Return;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,37 +20,40 @@ import java.sql.Timestamp;
 @Table(name = "conta")
 public class ContaC implements Serializable {
     private UUID id;
-    private UUID idCliente;
-    private UUID idGerente;
-    private int numeroConta;
+    private UUID idExternoCliente;
+    private UUID idExternoGerente;
+    private int numero;
     private BigDecimal saldo;
     private Date dataCriacao;
     private BigDecimal limite;
+    private UUID saga;
 
     public ContaC() {
         super();
     }
 
     public ContaC(UUID id, UUID idExternoCliente, UUID idExternoGerente, int numeroConta, BigDecimal saldo,
-            Timestamp dataCriacao, BigDecimal limite) {
+            Timestamp dataCriacao, BigDecimal limite, UUID saga) {
         super();
         this.id = id;
-        this.idCliente = idExternoCliente;
-        this.idGerente = idExternoGerente;
-        this.numeroConta = numeroConta;
+        this.idExternoCliente = idExternoCliente;
+        this.idExternoGerente = idExternoGerente;
+        this.numero = numeroConta;
         this.saldo = saldo;
         this.dataCriacao = dataCriacao;
         this.limite = limite;
+        this.saga = saga;
     }
     
     public ContaC(ContaDTO conta) {
         super();
         this.id = UUID.randomUUID();
-        this.idGerente = conta.getIdGerente();
-        this.idCliente = conta.getIdCliente();
+        this.idExternoGerente = conta.getIdGerente();
+        this.idExternoCliente = conta.getIdCliente();
+        this.saga = conta.getSaga();
         this.dataCriacao =  (Date) Calendar.getInstance().getTime();
         this.saldo = new BigDecimal("0");
-        
+        this.limite = new BigDecimal("0");
         if(Integer.parseInt(conta.getSalario().toString()) > 2000) {
         	this.limite = conta.getSalario().divide(new BigDecimal("2"));
         };
@@ -65,31 +69,31 @@ public class ContaC implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "idcliente")
-    public UUID getIdCliente() {
-        return idCliente;
+    @Column(name = "idexternocliente")
+    public UUID getIdExternoCliente() {
+        return idExternoCliente;
     }
 
-    public void setIdCliente(UUID idCliente) {
-        this.idCliente = idCliente;
+    public void setIdExternoCliente(UUID idExternoCliente) {
+        this.idExternoCliente = idExternoCliente;
     }
 
-    @Column(name = "idgerente")
-    public UUID getIdGerente() {
-        return idGerente;
+    @Column(name = "idexternogerente")
+    public UUID getIdExternoGerente() {
+        return idExternoGerente;
     }
 
-    public void setIdGerente(UUID idGerente) {
-        this.idGerente = idGerente;
+    public void setIdExternoGerente(UUID idExternoGerente) {
+        this.idExternoGerente = idExternoGerente;
     }
 
     @Column(name = "numero")
     public int getNumero() {
-        return numeroConta;
+        return numero;
     }
 
-    public void setNumero(int numeroConta) {
-        this.numeroConta = numeroConta;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     @Column(name = "saldo")
@@ -118,5 +122,13 @@ public class ContaC implements Serializable {
     public void setLimite(BigDecimal limite) {
         this.limite = limite;
     }
-
+    
+    @Column(name="saga")
+    public UUID getSaga() {
+    	return saga;
+    }
+    
+    public void setSaga(UUID saga) {
+    	this.saga = saga;
+    }
 }

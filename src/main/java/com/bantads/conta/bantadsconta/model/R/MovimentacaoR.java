@@ -1,4 +1,5 @@
 package com.bantads.conta.bantadsconta.model.R;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -13,23 +14,25 @@ import java.math.BigDecimal;
 @Table(name = "movimentacao")
 public class MovimentacaoR implements Serializable {
     private UUID id;
+    private BigDecimal valor;
     private UUID origem;
     private UUID destino;
-    private BigDecimal valor;
     private int tipoMovimentacao;
+    private UUID saga;
+    private Date dataHora;
 
     public MovimentacaoR() {
         super();
     }
 
     public MovimentacaoR(UUID id, UUID contaOrigem, UUID contaDestino, BigDecimal valorMovimentacao, BigDecimal saldo,
-    		int tipoMovimentacao) {
+    		int tipoMovimentacao, UUID saga) {
         super();
         this.id = id;
         this.origem = contaOrigem;
         this.destino = contaDestino;
         this.valor = valorMovimentacao;
-   
+        this.saga = saga;
         this.tipoMovimentacao = tipoMovimentacao;
     }
 
@@ -77,5 +80,23 @@ public class MovimentacaoR implements Serializable {
 
     public void setTipoMovimentacao(int tipoMovimentacao) {
         this.tipoMovimentacao = tipoMovimentacao;
+    }
+    
+    @Column(name="saga")
+    public UUID getSaga() {
+    	return this.saga;
+    }
+    
+    public void setSaga(UUID saga) {
+    	this.saga = saga;
+    }
+    
+    @Column(name="datahora")
+    public Date getDataHora() {
+    	return this.dataHora;
+    }
+    
+    public void setDataHora(Date dataHora) {
+    	this.dataHora = dataHora;
     }
 }
