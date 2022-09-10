@@ -49,8 +49,8 @@ public class ConsumerNovaConta {
     private ContaC novaContaC(NovaContaDTO novaContaDTO){
         ContaC conta = new ContaC();
         conta.setId(UUID.randomUUID());
-        conta.setIdCliente(novaContaDTO.getIdExternoCliente());
-        conta.setIdGerente(novaContaDTO.getIdExternoGerente());
+        conta.setIdExternoCliente(novaContaDTO.getIdExternoCliente());
+        conta.setIdExternoGerente(novaContaDTO.getIdExternoGerente());
         conta.setSaldo(new BigDecimal(0.0));
         conta.setLimite(getLimite(novaContaDTO.getSalario()));
         conta.setDataCriacao((Date) Calendar.getInstance().getTime());
