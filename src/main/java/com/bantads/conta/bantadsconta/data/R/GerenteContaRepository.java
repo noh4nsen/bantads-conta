@@ -10,7 +10,8 @@ import com.bantads.conta.bantadsconta.model.R.GerenteConta;
 
 public interface GerenteContaRepository extends JpaRepository<GerenteConta, UUID> {
 	GerenteConta findByIdExternoGerente(UUID idExternoGerente);
-	
+	GerenteConta findBySaga(UUID saga);
+
 	@Query(value = "select coalesce(sum(saldo), 0) from Conta where saldo > 0 and idexternogerente = :idExternoGerente", nativeQuery = true)
 	double calculaSaldoPositivo(@Param("idExternoGerente") UUID idExternoGerente);	
 	    @Transactional

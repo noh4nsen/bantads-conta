@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SenderAutenticacaoConfig {
-    @Value("autocadastro-autenticacao-rollback")
-    private String queueRollbackAutocadastroAutenticacao;
+public class SenderNovaSenhaConfig {
+    @Value("nova-senha-rollback")
+    private String queueRollbackNovaSenha;
 
     @Bean
-    public Queue queueRollbackAutocadastroAutenticacao() {
-        return new Queue(queueRollbackAutocadastroAutenticacao);
+    public Queue queueRollbackNovaSenha() {
+        return new Queue(queueRollbackNovaSenha);
     }
 }
