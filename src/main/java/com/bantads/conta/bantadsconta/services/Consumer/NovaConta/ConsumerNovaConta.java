@@ -17,6 +17,10 @@ import com.bantads.conta.bantadsconta.data.CUD.ContaCRepository;
 import com.bantads.conta.bantadsconta.data.R.ContaRRepository;
 import com.bantads.conta.bantadsconta.model.CUD.ContaC;
 import com.bantads.conta.bantadsconta.model.R.ContaR;
+import com.bantads.conta.bantadsconta.services.Producer.Rollback.Autenticacao.SenderNovaSenha;
+import com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente.SenderAprovacao;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -33,8 +37,14 @@ public class ConsumerNovaConta {
     @Autowired
     private ContaRRepository contaRRepository;
 
+    @Autowired
+    private SenderAprovacao senderAprovacao;
+
+    @Autowired
+    private SenderNovaSenha senderNovaSenha;
+
     @RabbitListener(queues = "nova-conta")
-    public void receive(@Payload String json) {
+    public void receive(@Payload String json) throws JsonMappingException, JsonProcessingException {
         try {
             NovaContaDTO novaContaDTO = objectMapper.readValue(json, NovaContaDTO.class);
             ContaC contaC = novaContaC(novaContaDTO);
@@ -43,6 +53,9 @@ public class ConsumerNovaConta {
             contaRRepository.save(contaR);
         } catch (Exception e) {
             System.out.println(e);
+            NovaContaDTO novaContaDTO = objectMapper.readValue(json, NovaContaDTO.class);
+            senderNovaSenha.send(novaContaDTO.getSaga());
+            senderAprovacao.send(novaContaDTO.getSaga());
         }
     }
 

@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Bean;
 
 import com.bantads.conta.bantadsconta.services.Producer.Cliente.SenderAnaliseVinculo;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Autenticacao.SenderAutenticacao;
+import com.bantads.conta.bantadsconta.services.Producer.Rollback.Autenticacao.SenderNovaSenha;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente.SenderAnalise;
+import com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente.SenderAprovacao;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Gerente.SenderGerente;
 
 @EnableRabbit
@@ -42,5 +44,15 @@ public class BantadsContaApplication {
 	@Bean
 	public SenderAnaliseVinculo senderAv(){
 		return new SenderAnaliseVinculo();
+	}
+
+	@Bean
+	public SenderNovaSenha senderAs(){
+		return new SenderNovaSenha();
+	}
+
+	@Bean
+	public SenderAprovacao senderAp(){
+		return new SenderAprovacao();
 	}
 }
