@@ -13,9 +13,8 @@ import javax.transaction.Transactional;
 public interface ContaRRepository extends JpaRepository<ContaR, UUID> {
 	ContaR findByIdExternoCliente(UUID idCliente);
 	Optional<ContaR> findById(UUID id);
-
-	List<ContaR> findByIdExternoGerente(UUID idExternoGerente);
-
+	Optional<List<ContaR>> findByIdExternoGerente(UUID idExternoGerente);
+	
 	@Transactional
 	public Long deleteBySaga(UUID id);
 }

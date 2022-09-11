@@ -69,7 +69,7 @@ public class ConsumerDeleteGerenteConta {
 
     private List<ContaR> getContasR(UUID idExternoGerente) {
         List<ContaR> contasR = new ArrayList<ContaR>();
-        contasR = contaRRepository.findByIdExternoGerente(idExternoGerente);
+        contasR = contaRRepository.findByIdExternoGerente(idExternoGerente).get();
         return contasR;
     }
 
