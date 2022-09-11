@@ -35,12 +35,13 @@ public class ConsumerDeleteGerenteConta {
             GerenteConta gerenteConta = getGerenteConta(idExternoGerente);
             List<ContaC> contasC = getContasC(gerenteConta.getIdExternoGerente());
             List<ContaR> contasR = getContasR(gerenteConta.getIdExternoGerente());
-            GerenteConta proximoGerenteConta = getProximoGerenteConta();
+            GerenteConta proximoGerenteConta = getProximoGerenteConta(idExternoGerente);
             changeGerenteContaC(proximoGerenteConta, contasC);
             changeGerenteContaR(proximoGerenteConta, contasR);
+            updateProximoGerente(gerenteConta, proximoGerenteConta);
+
             gerenteConta.setAtivo(false);
             gerenteConta.setQuantidadeContas(0);
-            updateProximoGerente(gerenteConta, proximoGerenteConta);
             gerenteContaRepository.save(gerenteConta);
         } catch (Exception e) {
             System.out.println(e);
@@ -79,10 +80,17 @@ public class ConsumerDeleteGerenteConta {
         }
     }
 
-    private GerenteConta getProximoGerenteConta() {
-        GerenteConta gerenteConta = new GerenteConta();
-        gerenteConta = gerenteContaRepository.findFirstByOrderByQuantidadeContasAsc();
-        return gerenteConta;
+    private GerenteConta getProximoGerenteConta(UUID id) {
+        List<GerenteConta> gerenteContas = new ArrayList<GerenteConta>();
+        gerenteContas = gerenteContaRepository.getGerenteContaMenosContas();
+        GerenteConta proximoGerenteConta = new GerenteConta();
+        for(GerenteConta gerenteConta: gerenteContas){
+            if(!gerenteConta.getIdExternoGerente().equals(id)){
+                proximoGerenteConta = gerenteConta;
+                break;                
+            }
+        }
+        return proximoGerenteConta;
     }
 
     private void updateProximoGerente(GerenteConta gerenteConta, GerenteConta proximoGerenteConta){
