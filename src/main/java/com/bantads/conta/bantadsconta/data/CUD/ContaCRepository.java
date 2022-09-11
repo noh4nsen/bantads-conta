@@ -1,5 +1,6 @@
 package com.bantads.conta.bantadsconta.data.CUD;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,8 @@ public interface ContaCRepository extends JpaRepository<ContaC, UUID> {
 	int maxNumero();
 
 	ContaC findByNumero(int numero);
+
+	List<ContaC> findByIdExternoGerente(UUID idExternoGerente);
 
 	@Transactional
 	public Long deleteBySaga(UUID id);
