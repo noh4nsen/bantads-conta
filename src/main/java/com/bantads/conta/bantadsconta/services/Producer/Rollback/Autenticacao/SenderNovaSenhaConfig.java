@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SenderNovaSenhaConfig {
-    @Value("rollback-nova-senha")
+    @Value("nova-senha-rollback")
     private String queueRollbackNovaSenha;
 
     @Bean

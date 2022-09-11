@@ -15,8 +15,10 @@ import org.springframework.stereotype.Component;
 import com.bantads.conta.bantadsconta.DTOs.NovaContaDTO;
 import com.bantads.conta.bantadsconta.data.CUD.ContaCRepository;
 import com.bantads.conta.bantadsconta.data.R.ContaRRepository;
+import com.bantads.conta.bantadsconta.data.R.GerenteContaRepository;
 import com.bantads.conta.bantadsconta.model.CUD.ContaC;
 import com.bantads.conta.bantadsconta.model.R.ContaR;
+import com.bantads.conta.bantadsconta.model.R.GerenteConta;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Autenticacao.SenderNovaSenha;
 import com.bantads.conta.bantadsconta.services.Producer.Rollback.Cliente.SenderAprovacao;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,6 +40,9 @@ public class ConsumerNovaConta {
     private ContaRRepository contaRRepository;
 
     @Autowired
+    private GerenteContaRepository gerenteContaRepository;
+
+    @Autowired
     private SenderAprovacao senderAprovacao;
 
     @Autowired
@@ -51,6 +56,12 @@ public class ConsumerNovaConta {
             ContaR contaR = mapper.map(contaC, ContaR.class);
             contaCRepository.save(contaC);
             contaRRepository.save(contaR);
+
+            GerenteConta gerenteConta = gerenteContaRepository
+                    .findByIdExternoGerente(novaContaDTO.getIdExternoGerente());
+            gerenteConta.setSaga(novaContaDTO.getSaga());
+            gerenteConta.setQuantidadeContas(gerenteConta.getQuantidadeContas() + 1);
+            gerenteContaRepository.save(gerenteConta);
         } catch (Exception e) {
             System.out.println(e);
             NovaContaDTO novaContaDTO = objectMapper.readValue(json, NovaContaDTO.class);
@@ -59,7 +70,7 @@ public class ConsumerNovaConta {
         }
     }
 
-    private ContaC novaContaC(NovaContaDTO novaContaDTO){
+    private ContaC novaContaC(NovaContaDTO novaContaDTO) {
         ContaC conta = new ContaC();
         conta.setId(UUID.randomUUID());
         conta.setIdExternoCliente(novaContaDTO.getIdExternoCliente());

@@ -74,20 +74,20 @@ public class ContaController {
 		try {
 			Optional<ContaR> contaOpt = contaRRepository.findById(id);
 
-    		if(!contaOpt.isPresent())
-    			return ResponseEntity.notFound().build();
-    		
-    		ContaR conta = contaOpt.get();
-    		
-        	if(conta != null) {
-        		ContaResponseDTO response = mapper.map(conta, ContaResponseDTO.class);
-            	return ResponseEntity.ok().body(response);
-        	} else {
-        		return ResponseEntity.ok().body(null);
-        	}
-    	} catch(Exception ex) {
-    		ex.printStackTrace();
-    		return ResponseEntity.status(500).build();
-    	}
-    }
+			if (!contaOpt.isPresent())
+				return ResponseEntity.notFound().build();
+
+			ContaR conta = contaOpt.get();
+
+			if (conta != null) {
+				ContaResponseDTO response = mapper.map(conta, ContaResponseDTO.class);
+				return ResponseEntity.ok().body(response);
+			} else {
+				return ResponseEntity.ok().body(null);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.status(500).build();
+		}
+	}
 }

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SenderAprovacaoConfig {
-    @Value("rollback-aprovacao")
+    @Value("aprovacao-rollback")
     private String queueRollbackAprovacao;
 
     @Bean

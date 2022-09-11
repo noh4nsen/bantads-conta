@@ -41,52 +41,52 @@ import com.bantads.conta.bantadsconta.services.SenderMovimentacao;
 public class MovimentacaoController {
 
 	@Autowired
-    private ModelMapper mapper;
-	
-	@Autowired
-	private SenderMovimentacao senderMov;
-	
-	@Autowired
-    private ContaCRepository contaCRepository;
-	
-	@Autowired
-    private MovimentacaoRRepository movimentacaoRRepository;
+	private ModelMapper mapper;
 
 	@Autowired
-    private MovimentacaoCRepository movimentacaoCRepository;
-	
+	private SenderMovimentacao senderMov;
+
 	@Autowired
-    private GerenteContaRepository gerenteContaRepository;
-	
+	private ContaCRepository contaCRepository;
+
+	@Autowired
+	private MovimentacaoRRepository movimentacaoRRepository;
+
+	@Autowired
+	private MovimentacaoCRepository movimentacaoCRepository;
+
+	@Autowired
+	private GerenteContaRepository gerenteContaRepository;
+
 	@PostMapping()
 	public ResponseEntity<MovimentacaoContaDTO> insere(@RequestBody MovimentacaoDTO mov) {
-		
+
 		try {
-			//INSERE A MOVIMENTACAO
+			// INSERE A MOVIMENTACAO
 			MovimentacaoC movimentacao = new MovimentacaoC(mov);
-			
+
 			Optional<ContaC> origemOpt = contaCRepository.findById(mov.getOrigem());
-			if(!origemOpt.isPresent())
+			if (!origemOpt.isPresent())
 				return ResponseEntity.notFound().build();
-			
+
 			ContaC origem = origemOpt.get();
 			ContaC destino = null;
-			
+
 			if (mov.getDestino() != 0) {
 				destino = contaCRepository.findByNumero(mov.getDestino());
 				movimentacao.setDestino(destino.getId());
 			}
-			
+
 			movimentacaoCRepository.save(movimentacao);
-			
-			//ATUALIZA O SALDO DA CONTA
-			switch(mov.getTipoMovimentacao()) {
-			
-				case 1://deposito
+
+			// ATUALIZA O SALDO DA CONTA
+			switch (mov.getTipoMovimentacao()) {
+
+				case 1:// deposito
 					origem.setSaldo(origem.getSaldo().add(mov.getValor()));
 					contaCRepository.save(origem);
 					break;
-					
+
 				case 2:// saque
 					if (mov.getValor().compareTo(origem.getSaldo().add(origem.getLimite())) == 1) {
 						return ResponseEntity.status(400).build();
@@ -95,11 +95,11 @@ public class MovimentacaoController {
 						contaCRepository.save(origem);
 					}
 					break;
-					
+
 				case 3:// transferencia
 					if (mov.getValor().compareTo(origem.getSaldo().add(origem.getLimite())) == 1) {
 						return ResponseEntity.status(400).build();
-					} else if(destino == null) {
+					} else if (destino == null) {
 						return ResponseEntity.notFound().build();
 					} else {
 						origem.setSaldo(origem.getSaldo().subtract(mov.getValor()));
@@ -108,43 +108,46 @@ public class MovimentacaoController {
 						contaCRepository.save(destino);
 					}
 					break;
-					
+
 				default:
 					return ResponseEntity.status(400).build();
 			}
-			
-			//MANDA PRA FILA DE DO READ QUE ATUALIZA OS DOIS E O gerenteconta
+
+			// MANDA PRA FILA DE DO READ QUE ATUALIZA OS DOIS E O gerenteconta
 			MovimentacaoContaDTO movSender = new MovimentacaoContaDTO(movimentacao, origem, destino);
 			senderMov.sendInserirRead(movSender);
-			
+
 			return ResponseEntity.ok().body(movSender);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return ResponseEntity.status(500).build();
 		}
 	}
-	
+
 	@GetMapping("/obter-data/{cliente}/{dataInicio}/{dataFim}")
-	public ResponseEntity<MovimentacoesResponseDTO> obtemPorData(@PathVariable UUID cliente, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataInicio, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataFim){
+	public ResponseEntity<MovimentacoesResponseDTO> obtemPorData(@PathVariable UUID cliente,
+			@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataInicio,
+			@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataFim) {
 		try {
-			List<MovimentacaoR> movimentacoes = movimentacaoRRepository.obtemMovimentacoesCliente(cliente, dataInicio, dataFim);
+			List<MovimentacaoR> movimentacoes = movimentacaoRRepository.obtemMovimentacoesCliente(cliente, dataInicio,
+					dataFim);
 			MovimentacoesResponseDTO response = new MovimentacoesResponseDTO(movimentacoes);
 			return ResponseEntity.ok().body(response);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return ResponseEntity.status(500).build();
 		}
 	}
-	
+
 	@GetMapping("/gerente-conta")
-	public ResponseEntity<GerentesContasResposeDTO> obtemTop5Gerentes(){
+	public ResponseEntity<GerentesContasResposeDTO> obtemTop5Gerentes() {
 		try {
 			List<GerenteConta> resultado = gerenteContaRepository.findAll();
 			GerentesContasResposeDTO response = new GerentesContasResposeDTO(resultado);
-        	return ResponseEntity.ok().body(response);
-    	} catch(Exception ex) {
-    		ex.printStackTrace();
-    		return ResponseEntity.status(500).build();
-    	}
+			return ResponseEntity.ok().body(response);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.status(500).build();
+		}
 	}
 }

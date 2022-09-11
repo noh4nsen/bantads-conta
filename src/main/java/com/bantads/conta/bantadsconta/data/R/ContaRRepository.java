@@ -7,7 +7,12 @@ import com.bantads.conta.bantadsconta.model.R.ContaR;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 public interface ContaRRepository extends JpaRepository<ContaR, UUID> {
 	ContaR findByIdExternoCliente(UUID idCliente);
 	Optional<ContaR> findById(UUID id);
+
+	@Transactional
+	public Long deleteBySaga(UUID id);
 }
