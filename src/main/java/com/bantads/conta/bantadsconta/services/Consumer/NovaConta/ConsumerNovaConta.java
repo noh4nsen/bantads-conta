@@ -68,6 +68,7 @@ public class ConsumerNovaConta {
         conta.setLimite(getLimite(novaContaDTO.getSalario()));
         conta.setDataCriacao((Date) Calendar.getInstance().getTime());
         conta.setNumero(contaCRepository.maxNumero() + 1);
+        conta.setSaga(novaContaDTO.getSaga());
         return conta;
     }
 
