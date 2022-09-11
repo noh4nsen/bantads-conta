@@ -41,6 +41,7 @@ public class ConsumerAutoCadastro {
                     0,
                     BigDecimal.ZERO,
                     BigDecimal.ZERO,
+                    true,
                     gerenteContaDTO.getSaga());
             gerenteContaRepository.save(gerenteConta);
         } catch (Exception e) {

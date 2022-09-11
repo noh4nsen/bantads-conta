@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,4 +92,18 @@ public class ContaController {
 			return ResponseEntity.status(500).build();
 		}
 	}
+	
+	@GetMapping("/por-gerente/{idExternoGerente}")
+    public ResponseEntity<List<ContaResponseDTO>> obterPorIdUsuario(@PathVariable UUID idExternoGerente) {
+        try {
+        	Optional<List<ContaR>> contasOpt = contaRRepository.findByIdExternoGerente(idExternoGerente);
+            if (!contasOpt.isPresent())
+                return ResponseEntity.notFound().build();
+
+            List<ContaResponseDTO> contasResponseDTO = contasOpt.get().stream().map(e -> mapper.map(e, ContaResponseDTO.class)).collect(Collectors.toList());
+            return ResponseEntity.ok(contasResponseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
 }

@@ -16,6 +16,7 @@ public class GerenteConta {
     private int quantidadeContas;
     private BigDecimal saldoPositivo;
     private BigDecimal saldoNegativo;
+    private boolean ativo;
     private UUID saga;
 
     public GerenteConta() {
@@ -23,13 +24,14 @@ public class GerenteConta {
     }
 
     public GerenteConta(UUID id, UUID idExternoGerente, int quantidadeContas, BigDecimal saldoPositivo,
-            BigDecimal saldoNegativo, UUID saga) {
+            BigDecimal saldoNegativo, boolean ativo, UUID saga) {
         super();
         this.id = id;
         this.idExternoGerente = idExternoGerente;
         this.quantidadeContas = quantidadeContas;
         this.saldoPositivo = saldoPositivo;
         this.saldoNegativo = saldoNegativo;
+        this.ativo = ativo;
         this.saga = saga;
     }
 
@@ -69,7 +71,7 @@ public class GerenteConta {
     public void setSaldoPositivo(BigDecimal saldoPositivo) {
         this.saldoPositivo = saldoPositivo;
     }
-    
+
     public void setSaldoPositivo(double saldoPositivo) {
         this.saldoPositivo = new BigDecimal(saldoPositivo);
     }
@@ -82,7 +84,7 @@ public class GerenteConta {
     public void setSaldoNegativo(BigDecimal saldoNegativo) {
         this.saldoNegativo = saldoNegativo;
     }
-    
+
     public void setSaldoNegativo(double saldoNegativo) {
         this.saldoNegativo = new BigDecimal(saldoNegativo);
     }
@@ -95,4 +97,14 @@ public class GerenteConta {
     public void setSaga(UUID saga) {
         this.saga = saga;
     }
+
+    @Column(name = "ativo")
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
 }
