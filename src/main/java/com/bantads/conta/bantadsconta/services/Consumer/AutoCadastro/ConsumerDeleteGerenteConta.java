@@ -39,6 +39,7 @@ public class ConsumerDeleteGerenteConta {
             changeGerenteContaC(proximoGerenteConta, contasC);
             changeGerenteContaR(proximoGerenteConta, contasR);
             gerenteConta.setAtivo(false);
+            gerenteConta.setQuantidadeContas(0);
             updateProximoGerente(gerenteConta, proximoGerenteConta);
             gerenteContaRepository.save(gerenteConta);
         } catch (Exception e) {
