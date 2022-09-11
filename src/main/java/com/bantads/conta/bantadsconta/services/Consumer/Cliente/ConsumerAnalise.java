@@ -28,7 +28,7 @@ public class ConsumerAnalise {
     public void receive(@Payload String json) {
         try {
             UUID saga = UUID.fromString(json);
-            GerenteConta gerente = gerenteContaRepository.findFirstByOrderByQuantidadeContasAsc();
+            GerenteConta gerente = gerenteContaRepository.getGerenteContaMenosContas().get(0);
             AnaliseVinculoDTO analiseVinculoDTO = new AnaliseVinculoDTO(saga, gerente.getIdExternoGerente());
             senderAnaliseVinculo.send(analiseVinculoDTO);
         } catch (Exception e) {

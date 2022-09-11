@@ -31,7 +31,7 @@ public class GerenteContaController {
     }
 
     @GetMapping("/health")
-	public String health() {
-		return "ʕ·͡ᴥ·ʔ";
-	}
+    public String health() {
+        return "ʕ·͡ᴥ·ʔ";
+    }
 }
