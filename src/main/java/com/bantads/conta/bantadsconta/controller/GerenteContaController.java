@@ -22,7 +22,7 @@ public class GerenteContaController {
     @GetMapping("/contas")
     public ResponseEntity<List<GerenteConta>> getGrenteContas() {
         try {
-            List<GerenteConta> gerentes = gerenteContaRepository.findAll();
+            List<GerenteConta> gerentes = gerenteContaRepository.findByAtivo(true);
             return ResponseEntity.ok().body(gerentes);
         } catch (Exception e) {
             System.out.println(e);
